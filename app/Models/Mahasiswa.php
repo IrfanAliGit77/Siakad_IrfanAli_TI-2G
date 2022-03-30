@@ -22,5 +22,11 @@ class Mahasiswa extends Model
         'Nama',
         'Kelas',
         'Jurusan',
+        'Kelamin',
+        'Email',
+        'Alamat',
+        'Lahir',
     ];
+
+    protected $perPage = 5;
 }

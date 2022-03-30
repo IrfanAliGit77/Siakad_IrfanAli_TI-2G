@@ -16,9 +16,9 @@ class MahasiswaController extends Controller
     public function index()
     {
         //fungsi eloquent menampilkan data menggunakan pagination
-        $mahasiswa = Mahasiswa::all(); // Mengambil semua isi tabel
-        $paginate = Mahasiswa::orderBy('id_mahasiswa', 'asc')->paginate(3); 
-        return view('mahasiswa.index', ['mahasiswa' => $mahasiswa,'paginate'=>$paginate]);
+        //$mahasiswa = Mahasiswa::all(); // Mengambil semua isi tabel
+        $mahasiswa = Mahasiswa::orderBy('id_mahasiswa', 'asc')->paginate(5); 
+        return view('mahasiswa.index', compact('mahasiswa'));
     }
 
     /**
@@ -45,6 +45,10 @@ class MahasiswaController extends Controller
             'Nama' => 'required',
             'Kelas' => 'required',
             'Jurusan' => 'required', 
+            'Kelamin' => 'required',
+            'Email' => 'required',
+            'Alamat' => 'required',
+            'Lahir' => 'required',
             ]);
             //fungsi eloquent untuk menambah data
             Mahasiswa::create($request->all());
@@ -94,7 +98,11 @@ class MahasiswaController extends Controller
             'Nim' => 'required',
             'Nama' => 'required',
             'Kelas' => 'required',
-            'Jurusan' => 'required', 
+            'Jurusan' => 'required',
+            'Kelamin' => 'required',
+            'Email' => 'required',
+            'Alamat' => 'required',
+            'Lahir' => 'required', 
             ]);
         //fungsi eloquent untuk mengupdate data inputan kita
         Mahasiswa::where('nim', $nim)
@@ -103,6 +111,10 @@ class MahasiswaController extends Controller
             'nama'=>$request->Nama,
             'kelas'=>$request->Kelas,
             'jurusan'=>$request->Jurusan,
+            'kelamin'=>$request->Kelamin,
+            'email'=>$request->Email,
+            'alamat'=>$request->Alamat,
+            'lahir'=>$request->Lahir,
         ]);
         //jika data berhasil diupdate, akan kembali ke halaman utama
             return redirect()->route('mahasiswa.index')
@@ -122,5 +134,20 @@ class MahasiswaController extends Controller
 
         return redirect()->route('mahasiswa.index')
         -> with('success', 'Mahasiswa Berhasil Dihapus');
+    }
+
+    public function search(Request $request)
+    {
+        $keyword = $request->search;
+        $mahasiswa = Mahasiswa::where('nama', 'like', "%" . $keyword . "%")
+        ->orWhere('nim', 'like', "%" . $keyword . "%")
+        ->orWhere('kelas', 'like', "%" . $keyword . "%")
+        ->orWhere('jurusan', 'like', "%" . $keyword . "%")
+        ->orWhere('kelamin', 'like', "%" . $keyword . "%")
+        ->orWhere('email', 'like', "%" . $keyword . "%")
+        ->orWhere('alamat', 'like', "%" . $keyword . "%")
+        ->orWhere('lahir', 'like', "%" . $keyword . "%")
+        ->paginate(5);
+        return view('mahasiswa.index', compact('mahasiswa'))->with('i', (request()->input('page', 1) - 1) * 5);
     }
 };

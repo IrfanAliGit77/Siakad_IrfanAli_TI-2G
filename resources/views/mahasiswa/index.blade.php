@@ -6,6 +6,21 @@
             <div class="pull-left mt-2">
                 <h2>JURUSAN TEKNOLOGI INFORMASI-POLITEKNIK NEGERI MALANG</h2>
             </div>
+
+            <!-- Start kode untuk form pencarian -->
+            <form class="form" method="get" action="{{ route('search') }}">
+                <div class="float-left my-2">
+                    <input type="text" name="search" class="form-control w-75 d-inline" id="search" placeholder="Masukkan Keyword..." value="{{request('search')}}">
+                    <button type="submit" class="btn btn-primary mb-1">Cari</button>
+                </div>
+            </form>
+            <!-- Start kode untuk form pencarian -->
+            @if ($message = Session::get('success'))
+                <div class="alert alert-success">
+                    <p>{{ $message }}</p>
+                </div>
+            @endif
+
             <div class="float-right my-2">
                 <a class="btn btn-success" href="{{ route('mahasiswa.create') }}"> Input Mahasiswa</a>
             </div>
@@ -29,6 +44,10 @@
             <th>Nama</th>
             <th>Kelas</th>
             <th>Jurusan</th>
+            <th>Jenis Kelamin</th>
+            <th>Email</th>
+            <th>Alamat</th>
+            <th>Tanggal Lahir</th>
             <th width="280px">Action</th>
         </tr>
         @foreach ($mahasiswa as $mhs)
@@ -38,6 +57,10 @@
             <td>{{ $mhs ->nama }}</td>
             <td>{{ $mhs ->kelas }}</td>
             <td>{{ $mhs ->jurusan }}</td>
+            <td>{{ $mhs ->kelamin }}</td>
+            <td>{{ $mhs ->email }}</td>
+            <td>{{ $mhs ->alamat }}</td>
+            <td>{{ $mhs ->lahir }}</td>
             <td>
             <form action="{{ route('mahasiswa.destroy',['mahasiswa'=>$mhs->nim]) }}" method="POST">
 
@@ -51,5 +74,9 @@
         </tr>
     @endforeach
     </table>
+    <div class="d-flex justify-content-end">
+        {{$mahasiswa->links()}}
+    </div>
+    
     
 @endsection
