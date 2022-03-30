@@ -51,4 +51,5 @@
         </tr>
     @endforeach
     </table>
+    
 @endsection
