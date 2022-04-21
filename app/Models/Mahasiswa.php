@@ -28,6 +28,7 @@ class Mahasiswa extends Model
         'email',
         'alamat',
         'lahir',
+        'foto',
     ];
 
     protected $perPage = 5;

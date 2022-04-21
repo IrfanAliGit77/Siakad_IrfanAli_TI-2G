@@ -48,6 +48,7 @@
             <th>Email</th>
             <th>Alamat</th>
             <th>Tanggal Lahir</th>
+            <th width="50px">Foto</th>
             <th width="320px">Action</th>
         </tr>
         @foreach ($paginate as $mhs)
@@ -61,6 +62,7 @@
             <td>{{ $mhs ->email }}</td>
             <td>{{ $mhs ->alamat }}</td>
             <td>{{ $mhs ->lahir }}</td>
+            <td><img width="50px" class="rounded mx-auto d-block" src="{{ $mhs->foto==''? asset('images/default.png'): asset('storage/'.$mhs->foto) }}" alt=""></td>
             <td>
             <form action="{{ route('mahasiswa.destroy',['mahasiswa'=>$mhs->nim]) }}" method="POST">
 
